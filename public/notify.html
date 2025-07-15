@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Event Registration Notifications</title>
+  <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+</head>
+<body>
+  <h1>Real-Time Event Registration Notifications</h1>
+  <ul id="notifications"></ul>
+  <script>
+    const socket = io('http://localhost:3000');
+    socket.on('newRegistration', data => {
+      const li = document.createElement('li');
+      li.textContent = `Student ${data.studentId} registered for event ${data.eventId} at ${data.registrationDate}`;
+      document.getElementById('notifications').appendChild(li);
+    });
+  </script>
+</body>
+</html>

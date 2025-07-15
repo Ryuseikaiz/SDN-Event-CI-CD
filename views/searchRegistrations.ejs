@@ -1,0 +1,56 @@
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<div class="container">
+    <h1 class="mb-4">Tìm kiếm đăng ký theo ngày</h1>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <form action="/registrations/search" method="POST">
+                <div class="row g-3 align-items-end">
+                    <div class="col-md">
+                        <label for="startDate" class="form-label">Từ ngày</label>
+                        <input type="date" class="form-control" id="startDate" name="startDate" required>
+                    </div>
+                    <div class="col-md">
+                        <label for="endDate" class="form-label">Đến ngày</label>
+                        <input type="date" class="form-control" id="endDate" name="endDate" required>
+                    </div>
+                    <div class="col-md-auto">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Tìm kiếm</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <% if (registrations) { %>
+        <h3 class="mb-3">Kết quả tìm kiếm</h3>
+        <% if (registrations.length > 0) { %>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                     <thead class="table-dark">
+                        <tr>
+                            <th>Tên sinh viên</th>
+                            <th>Tên sự kiện</th>
+                            <th>Ngày đăng ký</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% registrations.forEach(reg => { %>
+                            <tr>
+                                <td><%= reg.studentId.username %></td>
+                                <td><%= reg.eventId.name %></td>
+                                <td><%= new Date(reg.registrationDate).toLocaleString('vi-VN') %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        <% } else { %>
+            <div class="alert alert-warning">Không tìm thấy kết quả nào phù hợp.</div>
+        <% } %>
+    <% } %>
+</div>
+
+<%- include('partials/footer') %>

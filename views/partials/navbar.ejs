@@ -1,0 +1,29 @@
+<nav class="navbar navbar-expand-lg mb-4 sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/">
+            <i class="bi bi-calendar-event text-primary"></i>
+            FPTU Events
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <% if (user) { %>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <% if (user.role === 'student') { %>
+                        <li class="nav-item"><a class="nav-link" href="/events/register">Đăng ký sự kiện</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/registrations/my-registrations">Sự kiện của tôi</a></li>
+                    <% } %>
+                    <% if (user.role === 'admin') { %>
+                        <li class="nav-item"><a class="nav-link" href="/events/list-admin">Quản lý Sự kiện</a></li> <li class="nav-item"><a class="nav-link" href="/registrations/list">DS Đăng ký</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/registrations/search">Tìm kiếm</a></li>
+                    <% } %>
+                </ul>
+                <span class="navbar-text me-3">
+                    Chào, <strong class="text-primary"><%= user.username %></strong>
+                </span>
+                <a href="/auth/logout" class="btn btn-outline-danger btn-sm">Đăng xuất</a>
+            <% } %>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,59 @@
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Quản lý Sự kiện</h1>
+        <a href="/events/add" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Thêm sự kiện mới
+        </a>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <form action="/events/list-admin" method="GET" class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Nhập tên sự kiện để tìm..." name="search" value="<%= searchQuery %>">
+                <button class="btn btn-outline-success" type="submit">Tìm</button>
+            </form>
+        </div>
+    </div>
+
+    <% if (success) { %><div class="alert alert-success"><%= success %></div><% } %>
+
+    <% if (events.length > 0) { %>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Tên sự kiện</th>
+                        <th>Ngày diễn ra</th>
+                        <th>Địa điểm</th>
+                        <th>Sức chứa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% events.forEach(event => { %>
+                        <tr>
+                            <td>
+                                <a href="/events/<%= event._id %>/registrations" class="fw-bold text-decoration-none">
+                                    <%= event.name %>
+                                </a>
+                            </td>
+                            <td><%= new Date(event.date).toLocaleDateString('vi-VN') %></td>
+                            <td><%= event.location %></td>
+                            <td><%= event.capacity %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    <% } else { %>
+        <% if (searchQuery) { %>
+            <div class="alert alert-warning">Không tìm thấy sự kiện nào khớp với từ khóa "<%= searchQuery %>".</div>
+        <% } else { %>
+            <div class="alert alert-info">Chưa có sự kiện nào được tạo.</div>
+        <% } %>
+    <% } %>
+</div>
+
+<%- include('partials/footer') %>

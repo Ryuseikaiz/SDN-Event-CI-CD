@@ -1,0 +1,68 @@
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<div class="container">
+    <h1 class="mb-4">Danh sách sinh viên đăng ký</h1>
+
+    <% if (registrations.length > 0) { %>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Tên sinh viên</th>
+                        <th>Tên sự kiện</th>
+                        <th>Ngày đăng ký</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% registrations.forEach(reg => { %>
+                        <tr>
+                            <td><%= reg.studentId.username %></td>
+                            <td><%= reg.eventId.name %></td>
+                            <td><%= new Date(reg.registrationDate).toLocaleString('vi-VN') %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+
+        <% if (totalPages > 1) { %>
+            <nav><ul class="pagination justify-content-center">
+                <% for(let i = 1; i <= totalPages; i++) { %>
+                    <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                        <a class="page-link" href="/registrations/list?page=<%= i %>"><%= i %></a>
+                    </li>
+                <% } %>
+            </ul></nav>
+        <% } %>
+    <% } else { %>
+        <div class="alert alert-info">Chưa có sinh viên nào đăng ký.</div>
+    <% } %>
+</div>
+
+<!-- Toast Container for Real-time Notifications -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <i class="bi bi-bell-fill me-2 text-primary"></i>
+      <strong class="me-auto">Thông báo mới</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body" id="toast-body-content"></div>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+    const toastLiveExample = document.getElementById('liveToast');
+    const toastBody = document.getElementById('toast-body-content');
+    const toast = new bootstrap.Toast(toastLiveExample);
+
+    socket.on('newRegistration', (data) => {
+        toastBody.innerHTML = `Sinh viên <strong>${data.studentUsername}</strong> vừa đăng ký sự kiện <strong>${data.eventName}</strong>.`;
+        toast.show();
+    });
+</script>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,51 @@
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<div class="container">
+    <h1 class="mb-4">Các sự kiện đã đăng ký</h1>
+
+     <% if (success) { %><div class="alert alert-success"><%= success %></div><% } %>
+     <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+
+    <% if (registrations.length > 0) { %>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Tên sự kiện</th>
+                        <th>Ngày diễn ra</th>
+                        <th>Địa điểm</th>
+                        <th>Ngày đăng ký</th>
+                        <th class="text-center">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% registrations.forEach(reg => { %>
+                        <tr>
+                            <%# Kiểm tra xem reg.eventId có tồn tại không %>
+                            <% if (reg.eventId) { %>
+                                <td><%= reg.eventId.name %></td>
+                                <td><%= new Date(reg.eventId.date).toLocaleString('vi-VN') %></td>
+                                <td><%= reg.eventId.location %></td>
+                                <td><%= new Date(reg.registrationDate).toLocaleString('vi-VN') %></td>
+                            <% } else { %>
+                                <td colspan="3" class="text-danger fst-italic">
+                                    Sự kiện này không còn tồn tại trong hệ thống.
+                                </td>
+                            <% } %>
+                            <td class="text-center">
+                                <form action="/registrations/cancel/<%= reg._id %>" method="POST" onsubmit="return confirm('Bạn chắc chắn muốn hủy đăng ký này?');">
+                                    <button type="submit" class="btn btn-danger btn-sm">Hủy đăng ký</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    <% } else { %>
+        <div class="alert alert-info">Bạn chưa đăng ký sự kiện nào.</div>
+    <% } %>
+</div>
+
+<%- include('partials/footer') %>

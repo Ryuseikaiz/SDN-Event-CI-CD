@@ -1,0 +1,40 @@
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<div class="container">
+    <h1 class="mb-4">Thêm sự kiện mới</h1>
+    <div class="card">
+        <div class="card-body">
+            <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+
+            <form action="/events/add" method="POST">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Tên sự kiện</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Mô tả</label>
+                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="date" class="form-label">Ngày diễn ra</label>
+                        <input type="date" class="form-control" id="date" name="date" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="capacity" class="form-label">Sức chứa</label>
+                        <input type="number" class="form-control" id="capacity" name="capacity" required min="1">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="location" class="form-label">Địa điểm</label>
+                    <input type="text" class="form-control" id="location" name="location" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Tạo sự kiện</button>
+                <a href="/events/list-admin" class="btn btn-secondary">Hủy</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
