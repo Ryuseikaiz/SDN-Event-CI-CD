@@ -22,7 +22,7 @@ app.set('io', io);
 app.server = server; // Gắn server vào app
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://trongducdoan25:Tduc123@ducevent.xowgeoc.mongodb.net/?retryWrites=true&w=majority&appName=DucEvent', {
+mongoose.connect('mongodb+srv://nomsociuu2004:pt525S3psTKIIevC@cluster0.zftezsu.mongodb.net/events?retryWrites=true&w=majority&appName=Cluster0', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => console.log('MongoDB connected'))
